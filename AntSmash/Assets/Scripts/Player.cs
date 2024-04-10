@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
+    private AudioSource audSrc;
+    [SerializeField] private AudioClip missSound;
     public static int lives;
     private int score;
 
     void Start()
     {
+        audSrc = GetComponent<AudioSource>();
         lives = 5;
         score = 0;
     }
@@ -31,11 +34,14 @@ public class Player : MonoBehaviour
                     score++;
                     Debug.Log("score: " + score);
                 }
+                else
+                    audSrc.PlayOneShot(missSound);
             }
         }
 
         if (lives < 0)
         {
+            GameManager.instance.gameOver.SetActive(true);
             Debug.Log("game over");
         }
 

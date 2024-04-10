@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy : MonoBehaviour
@@ -7,9 +8,13 @@ public class Enemy : MonoBehaviour
     private Rigidbody2D rb;
     private SpriteRenderer sr;
     private Animator anim;
+    private AudioSource audSrc;
+    [SerializeField] private AudioClip[] deathSounds;
+    [SerializeField] private AudioClip lifeLostSound;
     [SerializeField] private Sprite deathSprite;
     [SerializeField] private float speed;
     public bool died;
+    private bool soundPlayed;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +22,9 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
+        audSrc = GetComponent<AudioSource>();
         died = false;
+        soundPlayed = false;
     }
 
     // Update is called once per frame
@@ -33,6 +40,12 @@ public class Enemy : MonoBehaviour
             sr.sprite = deathSprite;
             Destroy(anim);
             Destroy(gameObject, 2);
+
+            if (!soundPlayed)
+            {
+                audSrc.PlayOneShot(deathSounds[Random.Range(0, deathSounds.Length)]);
+                soundPlayed = true;
+            }
         }
     }
 
@@ -43,6 +56,7 @@ public class Enemy : MonoBehaviour
             if (Player.lives >= 0)
             {
                 Player.lives--;
+                audSrc.PlayOneShot(lifeLostSound);
 
                 for (int i = GameManager.instance.livesArray.Length - 1; i >= 0; i--)
                 {
@@ -57,7 +71,7 @@ public class Enemy : MonoBehaviour
                 Debug.Log("lives: " + Player.lives);
             }
 
-            Destroy(gameObject);
+            Destroy(gameObject, 1);
         }
     }
 }
