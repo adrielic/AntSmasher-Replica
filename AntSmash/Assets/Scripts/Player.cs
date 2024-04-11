@@ -31,7 +31,6 @@ public class Player : MonoBehaviour
                 if (hit.collider != null)
                 {
                     hit.collider.GetComponent<Enemy>().died = true;
-                    score++;
                     Debug.Log("score: " + score);
                 }
                 else
