@@ -38,6 +38,7 @@ public class Enemy : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             sr.sprite = deathSprite;
+            score++;
             Destroy(anim);
             Destroy(gameObject, 2);
 
