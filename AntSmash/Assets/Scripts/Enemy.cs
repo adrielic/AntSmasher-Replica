@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer sr;
     private Animator anim;
     private AudioSource audSrc;
+    private CircleCollider2D circleCol;
     [SerializeField] private AudioClip[] deathSounds;
     [SerializeField] private AudioClip lifeLostSound;
     [SerializeField] private Sprite deathSprite;
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         anim = GetComponent<Animator>();
         audSrc = GetComponent<AudioSource>();
+        circleCol = GetComponent<CircleCollider2D>();
         died = false;
         soundPlayed = false;
     }
@@ -38,7 +40,7 @@ public class Enemy : MonoBehaviour
         {
             rb.velocity = Vector2.zero;
             sr.sprite = deathSprite;
-            score++;
+            Destroy(circleCol);
             Destroy(anim);
             Destroy(gameObject, 2);
 

@@ -6,8 +6,7 @@ public class Player : MonoBehaviour
 {
     private AudioSource audSrc;
     [SerializeField] private AudioClip missSound;
-    public static int lives;
-    private int score;
+    public static int lives, score;
 
     void Start()
     {
@@ -31,6 +30,7 @@ public class Player : MonoBehaviour
                 if (hit.collider != null)
                 {
                     hit.collider.GetComponent<Enemy>().died = true;
+                    score++;
                     Debug.Log("score: " + score);
                 }
                 else
