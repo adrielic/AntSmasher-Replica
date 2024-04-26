@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        instance = this;
+    if (instance == null)
+         instance = this;
     }
 
     public void PauseButton()
